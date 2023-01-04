@@ -6,3 +6,4 @@
 - Kafka: setup kafka cluster with ansible
 
 # This tasks should be finish in 24 hours
+# You should present the result
