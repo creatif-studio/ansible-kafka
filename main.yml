@@ -1,0 +1,4 @@
+---
+- import_playbook: tasks/install.yml
+- import_playbook: tasks/extract.yml
+- import_playbook: tasks/running.yml

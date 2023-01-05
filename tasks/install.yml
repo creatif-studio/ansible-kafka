@@ -1,0 +1,30 @@
+---
+  - name: Upgrade Package, Install Java, and Kafka
+    become: true
+    hosts: all
+    vars:
+       vagrant_dir: /home/vagrant
+    tasks:
+      - name: Update Packages
+        apt:
+          update_cache: yes
+        tags:
+          - update
+      - name: Upgrade Packages
+        apt:
+          upgrade: dist
+          force_apt_get: yes
+        tags:
+          - upgrade
+      - name: Install Java
+        apt:
+          name: default-jre
+          state: present
+        tags:
+          - java
+      - name: Download Kafka
+        get_url:
+          url: https://downloads.apache.org/kafka/3.3.1/kafka_2.13-3.3.1.tgz
+          dest: "{{ vagrant_dir }}/kafka.tgz"
+        tags:
+          - download

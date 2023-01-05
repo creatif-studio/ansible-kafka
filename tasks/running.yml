@@ -1,0 +1,59 @@
+---
+  - name: Running Zookeeper & Kafka
+    become: true
+    hosts: all
+    vars:
+      systemd_dir: /etc/systemd/system
+      kafka_dir: /opt/kafka
+    tasks:
+      - name: Create Zookeeper Service
+        copy:
+          remote_src: yes
+          dest: "{{ systemd_dir }}/zookeeper.service"
+          content: |
+            [Unit]
+            Description=zookeeper
+
+
+            [Service]
+            Type=simple
+            ExecStart={{ kafka_dir }}/bin/zookeeper-server-start.sh {{ kafka_dir }}/config/zookeeper.properties
+            ExecStop={{ kafka_dir }}/bin/zookeeper-server-stop.sh
+
+
+            [Install]
+            WantedBy=multi-user.target
+      - name: Create Kafka Service
+        copy:
+          remote_src: yes
+          dest: "{{ systemd_dir }}/kafka.service"
+          content: |
+            [Unit]
+            Description=Apache Kafka
+
+
+            [Service]
+            Type=simple
+
+            ExecStart={{ kafka_dir }}/bin/kafka-server-start.sh {{ kafka_dir }}/config/server.properties
+            ExecStop={{ kafka_dir }}/bin/kafka-server-stop.sh
+
+            Restart=on-failure
+            RestartSec=5s
+
+
+            [Install]
+            WantedBy=multi-user.target
+      - name: Reload Systemd Service
+        systemd:
+          daemon-reload: yes
+      - name: Start Zookeeper Service
+        systemd:
+          name: zookeeper
+          enabled: yes
+          state: started
+      - name: Start Kafka Service
+        systemd:
+          name: kafka
+          enabled: yes
+          state: started

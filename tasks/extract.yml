@@ -1,0 +1,25 @@
+---
+  - name: Running Extract And Move
+    become: true
+    hosts: all
+    tasks:
+      - name: Extract Kafka
+        unarchive:
+          remote_src: yes
+          src: "{{ vagrant_dir }}/kafka.tgz"
+          dest: "{{ vagrant_dir }}"
+        tags:
+          - extract
+      - name: Copy Kafka Folder
+        copy:
+          remote_src: yes
+          src: "{{ vagrant_dir }}/kafka_2.13-3.3.1/"
+          dest: "/opt/kafka"
+        tags:
+          - copy
+      - name: Delete Source Kafka Folder
+        file:
+          path: "{{ vagrant_dir }}/kafka_2.13-3.3.1"
+          state: absent
+        tags:
+          - delete

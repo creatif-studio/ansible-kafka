@@ -1,0 +1,29 @@
+---
+  - name: Prepare Python Tools for kafka
+    become: true
+    hosts: all
+    vars:
+       vagrant_dir: /home/vagrant
+    tasks:
+      - name: Install Pip
+        apt:
+          name: python3-pip
+          state: present
+      - name: Install kafka-python
+        pip:
+          name: kafka-python
+      - name: Copy test kafka API to remote
+        copy:
+          src: test-kafka-api-python
+          dest: "{{ vagrant_dir }}"
+      - name: Create topic by running create_topic.py
+        script: 
+          remote_src: yes
+          executable: python3
+          cmd: test-kafka-api-python/create_topic.py
+
+
+# to run test, open vagrant ssh on 2 window
+# go in test-kafka-api-python directory
+# run python3 consumer.py
+# run python3 producer.py on other window then see output in consumer window
