@@ -1,9 +1,15 @@
 # Kafka with Ansible
 
-# Requirements
-- Ansible: automation for server configuration and installation of kafka
-- Vagrant: create local vm with ubuntu server 20.04
-- Kafka: setup kafka cluster with ansible
+## Contributing
 
-# This tasks should be finish in 24 hours
-# You should present the result
+If you'd like to contribute to this project, please follow these steps:
+
+1.  Fork this repository.
+2.  Create a branch for your changes.
+3.  Make your changes and commit them to your branch.
+4.  Push your branch to your forked repository.
+5.  Open a pull request to merge your changes into the main repository.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.
